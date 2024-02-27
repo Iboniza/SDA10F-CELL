@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="https://ros.org/wiki/xacro"  name="sda10f_wsg_50">
+
+  <!-- ur5 -->
+  <xacro:include filename="$(find motoman_sda10f_support)/urdf/sda10f.xacro" />
+  <!-- end-effector -->
+  <xacro:include filename="wsg_50.xacro" />
+
+  <!-- ur5 -->
+  <!-- The ur5 xacro must be included with passing parameters 
+  <xacro:motoman_sda10f prefix="" joint_limited="true"/>-->
+  <!-- end-effector -->
+  <!-- Here we include the end-effector by setting the parameters -->
+  <!-- TODO: check end-effector link name of robot -->
+  <xacro:wsg_50 prefix="" connected_to="arm_left_link_tool0"/>
+
+</robot>
+
+

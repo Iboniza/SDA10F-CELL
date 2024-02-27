@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="https://ros.org/wiki/xacro">
+
+ 
+  <!-- Here we define the 2 parameters of the macro -->
+  <xacro:macro name="wsg_50" params="prefix connected_to">
+  <!-- Create a fixed joint with a parameterized name. -->
+
+  <!-- GRIPPER LEFT -->
+
+  <joint name="${prefix}base_joint_gripper_left" type="prismatic">
+     <limit lower="-0.055" upper="-0.0027" effort="1.0" velocity="1.0"/>
+     <origin xyz="0 0 0" rpy="0 0 0" />      <!--origin xyz="-0.0067 0 0.049" rpy="0 0 0"/-->
+     <parent link="${connected_to}"/>
+     <child link="${prefix}gripper_left" />
+  </joint>
+
+  <transmission name="${prefix}base_trans_left" type="pr2_mechanism_model/SimpleTransmission">
+     <actuator name="${prefix}base_motor_left" />
+     <joint name="${prefix}base_joint_gripper_left" />
+     <mechanicalReduction>1</mechanicalReduction>
+     <motorTorqueConstant>1</motorTorqueConstant>
+  </transmission>
+
+  <link name="${prefix}gripper_left">
+      <visual>
+          <origin xyz="0.0 0 0" rpy="0 0 0" />
+          <geometry>
+             <mesh filename="package://motoman_sda10f_support/meshes/WSG50_110.stl" scale="0.001 0.001 0.001"/>
+	     <!--box size="0.0175 0.03 0.024"/-->
+          </geometry>
+          <!--material name="black">
+		<color rgba="0 0 0 0"/>
+      	  </material-->
+      </visual>
+
+      <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+	     <!--box size="0.0175 0.03 0.024"/-->
+             <mesh filename="package://motoman_sda10f_support/meshes/GUIDE_WSG50_110.stl" scale="0.001 0.001 0.001"/>
+         </geometry>
+     </collision>
+  </link>
+
+
+
+
+  <!-- LEFT FINGER -->
+
+  <joint name="${prefix}guide_joint_finger_left" type="fixed">
+     <origin xyz="0 0 0.023" rpy="0 0 0" />
+     <parent link="${prefix}gripper_left"/>
+     <child link="${prefix}finger_left" />
+  </joint>
+
+  <link name="${prefix}finger_left">
+      <visual>
+          <origin xyz="0.0 0 0" rpy="0 0 0" />
+          <geometry>
+             <mesh filename="package://motoman_sda10f_support/meshes/WSG-FMF.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+          <!--material name="black"-->
+		<!--color rgba="0 0 0 0"/-->
+      	  <!--/material-->
+      </visual>
+      <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+             <mesh filename="package://motoman_sda10f_support/meshes/WSG-FMF.stl" scale="0.001 0.001 0.001"/>
+         </geometry>
+     </collision>
+  </link>
+
+  
+
+  <!-- GRIPPER RIGHT -->
+
+  <joint name="${prefix}base_joint_gripper_right" type="prismatic">
+     <limit lower="0.0027" upper="0.055" effort="1.0" velocity="1.0"/>
+     <origin xyz="0 0 0" rpy="0 0 3.14159" />
+     <parent link="${connected_to}"/>
+     <child link="${prefix}gripper_right" />
+  </joint>
+
+  <transmission name="${prefix}base_trans_right" type="pr2_mechanism_model/SimpleTransmission">
+     <actuator name="${prefix}base_motor_right" />
+     <joint name="${prefix}base_joint_gripper_right" />
+     <mechanicalReduction>1</mechanicalReduction>
+     <motorTorqueConstant>1</motorTorqueConstant>
+  </transmission>
+	
+    <link name="${prefix}gripper_right">
+      <visual>
+          <origin xyz="0.0 0 0" rpy="0 0 0" />
+          <geometry>
+             <mesh filename="package://motoman_sda10f_support/meshes/GUIDE_WSG50_110.stl" scale="0.001 0.001 0.001"/>
+	     <!--box size="0.0175 0.03 0.024"/-->
+          </geometry>
+          <!--material name="black">
+		<color rgba="0 0 0 0"/>
+      	  </material-->
+      </visual>
+
+      <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+	     <!--box size="0.0175 0.03 0.024"/-->
+             <mesh filename="package://motoman_sda10f_support/meshes/GUIDE_WSG50_110.stl" scale="0.001 0.001 0.001"/>
+         </geometry>
+     </collision>
+  </link>
+
+  
+  <!-- RIGHT FINGER -->
+
+  <joint name="${prefix}guide_joint_finger_right" type="fixed">
+     <origin xyz="0 0 0.023" rpy="0 0 0" />
+     <parent link="${prefix}gripper_right"/>
+     <child link="${prefix}finger_right" />
+  </joint>
+
+  <link name="${prefix}finger_right">
+      <visual>
+          <origin xyz="0.0 0 0" rpy="0 0 0" />
+          <geometry>
+             <mesh filename="package://motoman_sda10f_support/meshes/WSG-FMF.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+          <!--material name="black">
+		<color rgba="0 0 0 0"/>
+      	  </material-->
+      </visual>
+
+      <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+             <mesh filename="package://motoman_sda10f_support/meshes/WSG-FMF.stl" scale="0.001 0.001 0.001"/>
+         </geometry>
+     </collision>
+  </link>
+
+ </xacro:macro>
+</robot>
+

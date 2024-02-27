@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find motoman_resources)/urdf/common_materials.xacro"/>
+  <xacro:include filename="$(find motoman_sda10f_support)/urdf/common_torso_macro.xacro" />
+  <xacro:include filename="$(find motoman_sda10f_support)/urdf/arm_macro.xacro" />
+  
+  <!-- Include Schunk WSG-50 -->
+	<xacro:include filename="$(find motoman_sda10f_support)/urdf/wsg_50.urdf" />
+  
+  <xacro:arg name="has_gripper" default="true"/>
+
+  <xacro:macro name="motoman_sda10f" params="prefix">
+    <xacro:torso name="${prefix}torso" prefix="${prefix}torso_"/>
+
+    <xacro:motoman_arm name="${prefix}arm_left" prefix="${prefix}arm_left_" parent="${prefix}torso_link_b1" reflect="1">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:motoman_arm>
+
+    <xacro:motoman_arm name="${prefix}arm_right" prefix="${prefix}arm_right_" parent="${prefix}torso_link_b1" reflect="-1">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:motoman_arm>
+
+    <!-- link list -->
+    <link name="${prefix}base_link" />
+
+    <!-- joint list -->
+    <joint name="${prefix}base_link_torso" type="fixed">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}torso_base_link"/>
+      <origin xyz="0 0 1.2" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- The following xacro is kept for backwards compatibility, it should not be used -->
+  <!-- see: https://github.com/ros-industrial/motoman/issues/166 -->
+  <xacro:macro name="sda10f">
+    <xacro:motoman_sda10f prefix=""/>
+    
+    
+    <!-- Schunk WSG-50 -->
+	<xacro:if value="$(arg has_gripper)">
+	    <xacro:wsg_50_xacro name="$(arg prefix)wsg50" parent="$(arg prefix)link_tool0" finger_length="0.023" finger_tip="0">
+		<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+	    </xacro:wsg_50_xacro>
+	</xacro:if>
+        
+  </xacro:macro>
+</robot>
+
+
